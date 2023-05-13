@@ -1,7 +1,7 @@
 # Compiler
 CP471 Compiler with recursive descent
 
-Implementing the following grammar with lexer, parser, symbol table, abstract syntax tree, and intermediate and assembly code generation:
+Implementing the following grammar with lexer, parser, symbol table, abstract syntax tree, and intermediate and assembly code generation to read .cp files:
 
 <program> ::= <fdecls> <declarations> <statement_seq>.
 <fdecls> ::= <fdec>; | <fdecls> <fdec>; |
