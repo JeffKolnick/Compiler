@@ -753,3 +753,33 @@ class Parser:
             self.error(f"Expected token {expected_token_type}, but found {self.current_token[0]}")
             if non_terminal:
                 self.panic_mode_recovery(non_terminal)
+    def error(self, message):
+        print(f"Entering error with token: {self.current_token}")
+        if len(self.current_token) >= 4:
+            line, position = self.current_token[2], self.current_token[3]
+            self.errors.append(f"Error at line {line}, position {position}: {message}")
+        else:
+            self.errors.append(f"Error: {message}") 
+
+    def print(self, node=None, indent=0, visited=None):
+        if node is None:
+            node = self.ast
+
+        if visited is None:
+            visited = set()
+
+        if isinstance(node, list):
+            for item in node:
+                self.print(item, indent, visited)
+        elif isinstance(node, Node):
+            if node in visited:
+                print(f"Cycle detected: {node.value, node.type}")
+                return
+
+            visited.add(node)
+
+            print(" " * (indent // 2) + f"Node {node.value}, {node.type}, children={len(node.children)}, nodes={node.children}")
+            for child in node.children:
+                self.print(child, indent + 2, visited)
+        else:
+            print(" " * (indent // 2) + str(node))
